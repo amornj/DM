@@ -168,10 +168,10 @@ export default function AskPage() {
         {messages.map(msg => (
           <div
             key={msg.id}
-            className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+            className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
           >
             <div
-              className={`relative max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
+              className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
                 msg.role === 'user'
                   ? 'text-white rounded-br-sm'
                   : 'bg-white border border-gray-100 shadow-sm text-gray-800 rounded-bl-sm'
@@ -185,20 +185,24 @@ export default function AskPage() {
               ) : (
                 <span>{msg.content}</span>
               )}
-              {msg.role === 'assistant' && (
-                <button
-                  onClick={() => toggleSpeak(msg)}
-                  className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-100 transition-colors"
-                  aria-label={speakingId === msg.id ? 'Stop reading' : 'Read aloud'}
-                >
-                  {speakingId === msg.id ? (
-                    <VolumeX size={13} className="text-[#0d6e6e]" />
-                  ) : (
-                    <Volume2 size={13} className="text-gray-400 hover:text-[#0d6e6e]" />
-                  )}
-                </button>
-              )}
             </div>
+            {msg.role === 'assistant' && (
+              <button
+                onClick={() => toggleSpeak(msg)}
+                className={`flex items-center gap-1.5 mt-1 ml-1 px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
+                  speakingId === msg.id
+                    ? 'bg-[#e6f4f4] text-[#0d6e6e]'
+                    : 'text-gray-400 hover:text-[#0d6e6e] hover:bg-[#e6f4f4]'
+                }`}
+                aria-label={speakingId === msg.id ? 'Stop reading' : 'Read aloud'}
+              >
+                {speakingId === msg.id ? (
+                  <><VolumeX size={13} /> Stop</>
+                ) : (
+                  <><Volume2 size={13} /> Read aloud</>
+                )}
+              </button>
+            )}
           </div>
         ))}
 
